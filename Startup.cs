@@ -48,6 +48,7 @@ namespace cd_c_loginRegistration
 
             // ADD THESE LINES -->
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc();
             // <-- THROUGH HERE, AND THEN COMMENT OUT THE FOLLOWING LINES
             // -->

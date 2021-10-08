@@ -5,6 +5,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using cd_c_loginRegistration.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace cd_c_loginRegistration.Controllers
 {
@@ -81,13 +82,26 @@ namespace cd_c_loginRegistration.Controllers
                     
                     return View("loginPage", userSubmission);
                 }
+                
+                // var loggedInUser = new User
+                // {
+                //     Email = userSubmission.Email
+                // };
+                HttpContext.Session.SetInt32("loggedInUser", userInDb.UserId);
+                System.Console.WriteLine($"{userInDb.UserId}");
                 return RedirectToAction("Success");
             }
             else
             {
                 return View("loginPage", userSubmission);
             }
-            
         }
+
+        [HttpGet("Success")]
+        public IActionResult Success()
+        {
+            return View("Success");
+        }
+
     }
 }

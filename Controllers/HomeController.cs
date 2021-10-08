@@ -28,11 +28,13 @@ namespace cd_c_loginRegistration.Controllers
         {
             if(ModelState.IsValid)
             {
-                if(_context.Users.Any(user => user.Email == user.Email))
+                //System.Console.WriteLine("TESTING1");
+                if(_context.Users.Any(u => u.Email == user.Email))
                 {
+                    //System.Console.WriteLine("TESTING2");
                     ModelState.AddModelError("Email", "The email address you entered has already been registered with this site.");
                     
-                    return RedirectToAction("Index");
+                    return View("Index", user);
                 }
                 PasswordHasher<User> Hasher = new PasswordHasher<User>();
                 user.Password = Hasher.HashPassword(user, user.Password);
@@ -43,8 +45,49 @@ namespace cd_c_loginRegistration.Controllers
             }
             else
             {
+                //System.Console.WriteLine("TESTING3");
                 return View("Index", user);
             }
+        }
+
+        [HttpGet("loginPage")]
+        public IActionResult LoginPage()
+        {
+            return View("LoginPage");
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login(LoginUser userSubmission)
+        {
+            if(ModelState.IsValid)
+            {
+                System.Console.WriteLine("TESTING1");
+                var userInDb = _context.Users.FirstOrDefault(u => u.Email == userSubmission.Email);
+
+                if(userInDb == null)
+                {
+                    System.Console.WriteLine("TESTING2");
+                    ModelState.AddModelError("Email", "Invalid Email/Password");
+                    return View("loginPage", userSubmission);
+                }
+                var hasher = new PasswordHasher<LoginUser>();
+
+                var result = hasher.VerifyHashedPassword(userSubmission, userInDb.Password, userSubmission.Password);
+
+                if(result == 0)
+                {
+                    System.Console.WriteLine("TESTING3");
+                    ModelState.AddModelError("Password", "Invalid Email/Password.");
+                    
+                    return View("loginPage", userSubmission);
+                }
+                return RedirectToAction("Success");
+            }
+            else
+            {
+                return View("loginPage", userSubmission);
+            }
+            
         }
     }
 }

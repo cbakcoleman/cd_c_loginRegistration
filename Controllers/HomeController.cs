@@ -42,7 +42,7 @@ namespace cd_c_loginRegistration.Controllers
 
                 _context.Add(user);
                 _context.SaveChanges();
-                return RedirectToAction("Index", new { userId = user.UserId});
+                return View("loginPage");
             }
             else
             {
@@ -62,12 +62,12 @@ namespace cd_c_loginRegistration.Controllers
         {
             if(ModelState.IsValid)
             {
-                System.Console.WriteLine("TESTING1");
+                //System.Console.WriteLine("TESTING1");
                 var userInDb = _context.Users.FirstOrDefault(u => u.Email == userSubmission.Email);
 
                 if(userInDb == null)
                 {
-                    System.Console.WriteLine("TESTING2");
+                    //System.Console.WriteLine("TESTING2");
                     ModelState.AddModelError("Email", "Invalid Email/Password");
                     return View("loginPage", userSubmission);
                 }
@@ -77,7 +77,7 @@ namespace cd_c_loginRegistration.Controllers
 
                 if(result == 0)
                 {
-                    System.Console.WriteLine("TESTING3");
+                    //System.Console.WriteLine("TESTING3");
                     ModelState.AddModelError("Password", "Invalid Email/Password.");
                     
                     return View("loginPage", userSubmission);
@@ -88,7 +88,7 @@ namespace cd_c_loginRegistration.Controllers
                 //     Email = userSubmission.Email
                 // };
                 HttpContext.Session.SetInt32("loggedInUser", userInDb.UserId);
-                System.Console.WriteLine($"{userInDb.UserId}");
+                //System.Console.WriteLine($"{userInDb.UserId}");
                 return RedirectToAction("Success");
             }
             else
@@ -100,10 +100,10 @@ namespace cd_c_loginRegistration.Controllers
         [HttpGet("Success")]
         public IActionResult Success()
         {
-            System.Console.WriteLine("TESTING1");
+            //System.Console.WriteLine("TESTING1");
             if(HttpContext.Session.GetInt32("loggedInUser") == null)
             {
-                System.Console.WriteLine("TESTING2");
+                //System.Console.WriteLine("TESTING2");
                 return View("loginpage");
             }
             return View("Success");

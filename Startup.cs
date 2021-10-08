@@ -8,8 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-// ADD THIS LINE -->
+// ADD THESE LINES -->
 using cd_c_loginRegistration.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration; // <-- THROUGH HERE
 
 namespace cd_c_loginRegistration
 {
@@ -18,7 +21,7 @@ namespace cd_c_loginRegistration
         // ADD THESE LINES -->
         public Startup (IConfiguration configuration)
         {
-            Congifuration = configuration;
+            Configuration = configuration;
         } // <-- THROUGH HERE 
 
         // ADD THIS LINE -->

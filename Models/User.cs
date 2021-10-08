@@ -1,9 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
+// ADD THE FOLLOWING FOR 'NotMapped' -->
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace cd_c_loginRegistration.Models
 {
-    public class UserContext
+    public class User
     {
         [Key]
         public int UserId {get;set;}
@@ -21,21 +24,24 @@ namespace cd_c_loginRegistration.Models
 
         [Required(ErrorMessage = "You must enter an email address.")]
         [EmailAddress(ErrorMessage = "You must enter a valid email address.")]
+        [Display(Name = "Email: ")]
 
         public string Email {get;set;}
 
         [Required(ErrorMessage = "You must enter a password.")]
         [DataType(DataType.Password)]
         [MinLength(8, ErrorMessage = "Password must be 8 characters or longer.")]
+        [Display(Name = "Password: ")]
         public string Password {get;set;}
 
         public DateTime CreatedAt {get;set;} = DateTime.Now;
-        
+
         public DateTime UpdatedAt {get;set;} = DateTime.Now;
 
         [NotMapped]
         [Compare("Password")]
         [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password: ")]
         public string Confirm {get;set;}
 
     }

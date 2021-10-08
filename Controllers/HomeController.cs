@@ -100,8 +100,22 @@ namespace cd_c_loginRegistration.Controllers
         [HttpGet("Success")]
         public IActionResult Success()
         {
+            System.Console.WriteLine("TESTING1");
+            if(HttpContext.Session.GetInt32("loggedInUser") == null)
+            {
+                System.Console.WriteLine("TESTING2");
+                return View("loginpage");
+            }
             return View("Success");
         }
+
+        [HttpGet("LogOut")]
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+            return View("loginPage");
+        }
+        
 
     }
 }
